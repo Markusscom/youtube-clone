@@ -29,4 +29,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'subscriber_id');
+    }
+
+    public function subscribers()
+    {
+        return $this->hasMany(Subscription::class, 'channel_id');
+    }
 }

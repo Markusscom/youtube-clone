@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subscriber_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('channel_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['subscriber_id', 'channel_id']);
         });
     }
 
