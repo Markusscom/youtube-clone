@@ -1,11 +1,22 @@
-import logo from "../assets/logo.png";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-function Header() {
-  return (
-    <header id="header">
-        <img src={logo} className="logo" alt="logo" width={100} height={100} />
-    </header>
-  );
+export default function Header({ toggleTheme }) {
+    const [dropdown, setDropdown] = useState(false);
+
+    return (
+        <header>
+            <Link to="/"><h3>YouTube Clone</h3></Link>
+            <div className="dropdown">
+                <button onClick={() => setDropdown(!dropdown)}>Profile</button>
+                {dropdown && (
+                    <div className="dropdown-menu">
+                        <button onClick={toggleTheme}>Toggle Theme</button>
+                        <Link to="/upload">Upload</Link>
+                        <button onClick={() => { localStorage.removeItem('token'); window.location.reload(); }}>Logout</button>
+                    </div>
+                )}
+            </div>
+        </header>
+    );
 }
-
-export default Header;

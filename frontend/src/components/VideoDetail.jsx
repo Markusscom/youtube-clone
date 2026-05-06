@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../logic/api';
+import api, { BACKEND_URL } from '../logic/api';
 
 export default function VideoDetail() {
     const { id } = useParams();
@@ -15,7 +15,7 @@ export default function VideoDetail() {
     };
 
     const handleSubscribe = () => {
-        api.post(`/channels/${video.user_id}/subscribe`);
+        if (video) api.post(`/channels/${video.user_id}/subscribe`);
     };
 
     if (!video) return <div>Loading...</div>;
@@ -23,7 +23,7 @@ export default function VideoDetail() {
     return (
         <div className="video-detail">
             <h1>{video.title}</h1>
-            <video src={video.video_url} controls width="100%" />
+            <video src={`${BACKEND_URL}${video.video_url}`} controls width="100%" />
             <p>{video.description}</p>
             <button onClick={handleLike}>Like</button>
             <button onClick={handleSubscribe}>Subscribe</button>
