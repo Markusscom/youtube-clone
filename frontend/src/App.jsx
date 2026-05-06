@@ -6,6 +6,7 @@ import AuthForms from './components/AuthForms.jsx';
 import VideoFeed from './components/VideoFeed.jsx';
 import VideoDetail from './components/VideoDetail.jsx';
 import UploadVideo from './components/UploadVideo.jsx';
+import Placeholder from './components/Placeholder.jsx';
 
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -19,8 +20,8 @@ function App() {
 
     return (
         <BrowserRouter>
-            <div className="layout">
-                <Header toggleTheme={toggleTheme} />
+            <Header toggleTheme={toggleTheme} />
+            <div className="app-layout">
                 <Sidebar />
                 <main className="main-content">
                     <Routes>
@@ -28,6 +29,8 @@ function App() {
                         <Route path="/auth" element={<AuthForms />} />
                         <Route path="/video/:id" element={<VideoDetail />} />
                         <Route path="/upload" element={<UploadVideo />} />
+                        <Route path="/trending" element={<Placeholder title="Trending" />} />
+                        <Route path="/subscriptions" element={<Placeholder title="Subscriptions" />} />
                     </Routes>
                 </main>
             </div>

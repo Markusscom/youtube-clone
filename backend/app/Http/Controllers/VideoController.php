@@ -19,13 +19,27 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        \Log::info('Upload Request:', $request->all());
+
+        if ($request->hasFile('video')) {
+            \Log::info('File received:', ['name' => $request->file('video')->getClientOriginalName(), 'size' => $request->file('video')->getSize()]);
+        } else {
+            \Log::error('No video file in request.');
+        }
+
+        $validator = \Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'video' => 'required|file|mimes:mp4,mov,avi,mpeg|max:102400',
         ]);
 
+        if ($validator->fails()) {
+            \Log::error('Validation failed:', $validator->errors()->toArray());
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $path = $request->file('video')->store('videos', 'public');
+        $validated = $validator->validated();
         $validated['video_url'] = '/storage/' . $path;
         unset($validated['video']);
 

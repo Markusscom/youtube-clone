@@ -5,8 +5,8 @@ export default function Header({ toggleTheme }) {
     const [dropdown, setDropdown] = useState(false);
 
     return (
-        <header>
-            <Link to="/"><h3>YouTube Clone</h3></Link>
+        <header className="header-wrapper">
+            <Link to="/" className="logo">YouTube Clone</Link>
             <div className="dropdown">
                 <button onClick={() => setDropdown(!dropdown)}>Profile</button>
                 {dropdown && (

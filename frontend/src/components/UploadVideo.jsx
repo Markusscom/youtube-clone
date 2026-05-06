@@ -13,10 +13,10 @@ export default function UploadVideo() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!file) return setError('Please select a video file.');
-        
+
         setLoading(true);
         setError(null);
-        
+
         const formData = new FormData();
         formData.append('title', title);
         formData.append('description', description);
@@ -28,7 +28,10 @@ export default function UploadVideo() {
             });
             navigate('/');
         } catch (err) {
-            setError('Upload failed. Please check your network and file size.');
+            const message = err.response?.data?.errors
+                ? JSON.stringify(err.response.data.errors)
+                : (err.response?.data?.message || 'Upload failed. Check console for details.');
+            setError(message);
         } finally {
             setLoading(false);
         }
@@ -37,6 +40,8 @@ export default function UploadVideo() {
     return (
         <div className="upload-container">
             <h2>Upload Video</h2>
+            <h3>Limited to 100mb</h3>
+            <h4>Supported types: mp4, mov, avi, mpeg</h4>
             {error && <div className="error-message">{error}</div>}
             <form onSubmit={handleSubmit} className="upload-form">
                 <input type="text" placeholder="Title" required onChange={e => setTitle(e.target.value)} />
