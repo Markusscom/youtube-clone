@@ -22,9 +22,12 @@ class VideoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'video_url' => 'required|string',
-            'thumbnail_url' => 'nullable|string',
+            'video' => 'required|file|mimes:mp4,mov,avi',
         ]);
+
+        $path = $request->file('video')->store('videos', 'public');
+        $validated['video_url'] = '/storage/' . $path;
+        unset($validated['video']);
 
         $video = $request->user()->videos()->create($validated);
 
